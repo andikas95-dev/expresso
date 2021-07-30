@@ -1,19 +1,19 @@
-import { Request, Response } from 'express'
-import routes from 'routes/public'
 import asyncHandler from '@expresso/helpers/asyncHandler'
-import Authorization from 'middlewares/Authorization'
-import BuildResponse from '@expresso/modules/Response/BuildResponse'
-import RefreshTokenService from 'controllers/RefreshToken/service'
-import AuthService from 'controllers/Auth/service'
 import { currentToken } from '@expresso/helpers/Token'
+import BuildResponse from '@expresso/modules/Response/BuildResponse'
+import AuthService from 'controllers/Auth/service'
+import RefreshTokenService from 'controllers/RefreshToken/service'
+import { Request, Response } from 'express'
+import Authorization from 'middlewares/Authorization'
 import { UserLoginAttributes } from 'models/user'
+import routes from 'routes/public'
 
 routes.post(
   '/auth/sign-up',
   asyncHandler(async function signUp(req: Request, res: Response) {
     const formData = req.getBody()
     const data = await AuthService.signUp(formData)
-    const buildResponse = BuildResponse.get(data)
+    const buildResponse = BuildResponse.get({ message: data.message })
 
     return res.status(201).json(buildResponse)
   })

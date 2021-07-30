@@ -1,22 +1,22 @@
-import { Request } from 'express'
-import models from 'models'
-import db from 'models/_instance'
-import ResponseError from '@expresso/modules/Response/ResponseError'
-import useValidation from '@expresso/hooks/useValidation'
-import { RoleAttributes } from 'models/role'
-import PluginSqlizeQuery from '@expresso/modules/SqlizeQuery/PluginSqlizeQuery'
-import Excel from '@expresso/helpers/Excel'
-import { isEmpty } from 'lodash'
 import { validateBoolean } from '@expresso/helpers/Common'
+import Excel from '@expresso/helpers/Excel'
+import useValidation from '@expresso/hooks/useValidation'
 import { FileAttributes } from '@expresso/interfaces/file'
-import roleSchema from './schema'
+import ResponseError from '@expresso/modules/Response/ResponseError'
+import PluginSqlizeQuery from '@expresso/modules/SqlizeQuery/PluginSqlizeQuery'
+import { Request } from 'express'
+import { isEmpty } from 'lodash'
+import models from 'models'
+import { HobbyAttributes } from 'models/hobby'
+import db from 'models/_instance'
+import hobbySchema from './schema'
 
 const { Sequelize } = db
 const { Op } = Sequelize
 
-const { Role } = models
+const { Hobby } = models
 
-class RoleService {
+class HobbyService {
   /**
    *
    * @param req Request
@@ -24,15 +24,15 @@ class RoleService {
   public static async getAll(req: Request) {
     const { includeCount, order, ...queryFind } = PluginSqlizeQuery.generate(
       req.query,
-      Role,
+      Hobby,
       []
     )
 
-    const data = await Role.findAll({
+    const data = await Hobby.findAll({
       ...queryFind,
       order: order.length ? order : [['createdAt', 'desc']],
     })
-    const total = await Role.count({
+    const total = await Hobby.count({
       include: includeCount,
       where: queryFind.where,
     })
@@ -46,11 +46,11 @@ class RoleService {
    * @param paranoid
    */
   public static async getOne(id: string, paranoid?: boolean) {
-    const data = await Role.findByPk(id, { paranoid })
+    const data = await Hobby.findByPk(id, { paranoid })
 
     if (!data) {
       throw new ResponseError.NotFound(
-        'role data not found or has been deleted'
+        'hobby data not found or has been deleted'
       )
     }
 
@@ -61,9 +61,9 @@ class RoleService {
    *
    * @param formData
    */
-  public static async create(formData: RoleAttributes) {
-    const value = useValidation(roleSchema.create, formData)
-    const data = await Role.create(value)
+  public static async create(formData: HobbyAttributes) {
+    const value = useValidation(hobbySchema.create, formData)
+    const data = await Hobby.create(value)
 
     return data
   }
@@ -73,10 +73,10 @@ class RoleService {
    * @param id
    * @param formData
    */
-  public static async update(id: string, formData: RoleAttributes) {
+  public static async update(id: string, formData: HobbyAttributes) {
     const data = await this.getOne(id)
 
-    const value = useValidation(roleSchema.create, {
+    const value = useValidation(hobbySchema.create, {
       ...data.toJSON(),
       ...formData,
     })
@@ -155,7 +155,7 @@ class RoleService {
       throw new ResponseError.BadRequest('ids cannot be empty')
     }
 
-    await Role.destroy({
+    await Hobby.destroy({
       where: {
         id: {
           [Op.in]: ids,
@@ -175,7 +175,7 @@ class RoleService {
       throw new ResponseError.BadRequest('ids cannot be empty')
     }
 
-    await Role.restore({
+    await Hobby.restore({
       where: {
         id: {
           [Op.in]: ids,
@@ -185,4 +185,4 @@ class RoleService {
   }
 }
 
-export default RoleService
+export default HobbyService

@@ -1,13 +1,14 @@
+import useValidation from '@expresso/hooks/useValidation'
+import ResponseError from '@expresso/modules/Response/ResponseError'
+import PluginSqlizeQuery from '@expresso/modules/SqlizeQuery/PluginSqlizeQuery'
 import { Request } from 'express'
 import models from 'models'
-import ResponseError from '@expresso/modules/Response/ResponseError'
-import useValidation from '@expresso/hooks/useValidation'
-import PluginSqlizeQuery from '@expresso/modules/SqlizeQuery/PluginSqlizeQuery'
 import { SessionAttributes } from 'models/session'
 import { Transaction } from 'sequelize'
 import sessionSchema from './schema'
 
-const { Session } = models
+const { Session, User } = models
+const including = [{ model: User }]
 
 class SessionService {
   /**
@@ -15,10 +16,11 @@ class SessionService {
    * @param req Request
    */
   public static async getAll(req: Request) {
+    const { filtered } = req.getQuery()
     const { includeCount, order, ...queryFind } = PluginSqlizeQuery.generate(
       req.query,
       Session,
-      []
+      PluginSqlizeQuery.makeIncludeQueryable(filtered, including)
     )
 
     const data = await Session.findAll({

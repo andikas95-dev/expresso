@@ -1,14 +1,9 @@
 module.exports = {
-  '/user': {
+  '/hobby': {
     get: {
-      tags: ['User'],
-      summary: 'Get All User',
+      tags: ['Hobby'],
+      summary: 'Get All Hobby',
       produces: ['application/json'],
-      security: [
-        {
-          auth_token: [],
-        },
-      ],
       parameters: [
         {
           $ref: '#/components/parameters/page',
@@ -25,13 +20,13 @@ module.exports = {
       ],
       responses: {
         200: {
-          description: 'Get All User',
+          description: 'Get All Hobby',
         },
       },
     },
     post: {
-      tags: ['User'],
-      summary: 'Create New User',
+      tags: ['Hobby'],
+      summary: 'Create New Hobby',
       security: [
         {
           auth_token: [],
@@ -40,226 +35,33 @@ module.exports = {
       requestBody: {
         required: true,
         content: {
-          'multipart/form-data': {
+          'application/x-www-form-urlencoded': {
             schema: {
               type: 'object',
               properties: {
-                fullName: {
+                name: {
                   type: 'string',
-                },
-                email: {
-                  type: 'string',
-                },
-                newPassword: {
-                  type: 'string',
-                },
-                confirmNewPassword: {
-                  type: 'string',
-                },
-                phone: {
-                  type: 'string',
-                },
-                RoleId: {
-                  type: 'string',
-                },
-                profileImage: {
-                  type: 'file',
-                  items: {
-                    type: 'string',
-                    format: 'binary',
-                  },
                 },
               },
-              required: [
-                'fullName',
-                'email',
-                'newPassword',
-                'confirmNewPassword',
-                'profileImage',
-                'RoleId',
-              ],
+              required: ['name'],
             },
           },
         },
       },
       responses: {
         201: {
-          description: 'Create New User',
+          description: 'Create New Hobby',
         },
       },
     },
   },
-  '/user/multiple/soft-delete': {
+  '/hobby/import-excel': {
     post: {
-      tags: ['User'],
-      summary: 'Multiple Soft Delete User',
+      tags: ['Hobby'],
+      summary: 'Import Excel',
       security: [
         {
           auth_token: [],
-        },
-      ],
-      requestBody: {
-        required: true,
-        content: {
-          'application/x-www-form-urlencoded': {
-            schema: {
-              type: 'object',
-              properties: {
-                ids: {
-                  type: 'string',
-                  description: '["id_1", "id_2"]',
-                },
-              },
-              required: ['ids'],
-            },
-          },
-        },
-      },
-      responses: {
-        200: {
-          description: 'Multiple Soft Delete User',
-        },
-      },
-    },
-  },
-  '/user/multiple/restore': {
-    post: {
-      tags: ['User'],
-      summary: 'Multiple Restore User',
-      security: [
-        {
-          auth_token: [],
-        },
-      ],
-      requestBody: {
-        required: true,
-        content: {
-          'application/x-www-form-urlencoded': {
-            schema: {
-              type: 'object',
-              properties: {
-                ids: {
-                  type: 'string',
-                  description: '["id_1", "id_2"]',
-                },
-              },
-              required: ['ids'],
-            },
-          },
-        },
-      },
-      responses: {
-        200: {
-          description: 'Multiple Restore User',
-        },
-      },
-    },
-  },
-  '/user/multiple/force-delete': {
-    post: {
-      tags: ['User'],
-      summary: 'Multiple Force Delete User ( Forever )',
-      security: [
-        {
-          auth_token: [],
-        },
-      ],
-      requestBody: {
-        required: true,
-        content: {
-          'application/x-www-form-urlencoded': {
-            schema: {
-              type: 'object',
-              properties: {
-                ids: {
-                  type: 'string',
-                  description: '["id_1", "id_2"]',
-                },
-              },
-              required: ['ids'],
-            },
-          },
-        },
-      },
-      responses: {
-        200: {
-          description: 'Multiple Force Delete User ( Forever )',
-        },
-      },
-    },
-  },
-  '/user/{id}/session': {
-    get: {
-      tags: ['User'],
-      summary: 'Get User By Id with Session',
-      produces: ['application/json'],
-      security: [
-        {
-          auth_token: [],
-        },
-      ],
-      parameters: [
-        {
-          in: 'path',
-          name: 'id',
-          required: true,
-          schema: {
-            type: 'string',
-          },
-          description: 'User Id',
-        },
-      ],
-      responses: {
-        200: {
-          description: 'Get User By Id with Session',
-        },
-      },
-    },
-  },
-  '/user/{id}': {
-    get: {
-      tags: ['User'],
-      summary: 'Get User By Id',
-      produces: ['application/json'],
-      security: [
-        {
-          auth_token: [],
-        },
-      ],
-      parameters: [
-        {
-          in: 'path',
-          name: 'id',
-          required: true,
-          schema: {
-            type: 'string',
-          },
-          description: 'User Id',
-        },
-      ],
-      responses: {
-        200: {
-          description: 'Get User By Id',
-        },
-      },
-    },
-    put: {
-      tags: ['User'],
-      summary: 'Update Data User',
-      security: [
-        {
-          auth_token: [],
-        },
-      ],
-      parameters: [
-        {
-          in: 'path',
-          name: 'id',
-          required: true,
-          schema: {
-            type: 'string',
-          },
-          description: 'User Id',
         },
       ],
       requestBody: {
@@ -269,25 +71,7 @@ module.exports = {
             schema: {
               type: 'object',
               properties: {
-                fullName: {
-                  type: 'string',
-                },
-                email: {
-                  type: 'string',
-                },
-                newPassword: {
-                  type: 'string',
-                },
-                confirmNewPassword: {
-                  type: 'string',
-                },
-                phone: {
-                  type: 'string',
-                },
-                RoleId: {
-                  type: 'string',
-                },
-                profileImage: {
+                fileExcel: {
                   type: 'file',
                   items: {
                     type: 'string',
@@ -295,34 +79,183 @@ module.exports = {
                   },
                 },
               },
-              required: [
-                'fullName',
-                'email',
-                'newPassword',
-                'confirmNewPassword',
-                'profileImage',
-                'RoleId',
-              ],
+              required: ['fileExcel'],
             },
           },
         },
       },
       responses: {
         200: {
-          description: 'Update Data User',
+          description: 'Import Excel',
         },
       },
     },
   },
-  '/user/soft-delete/{id}': {
-    delete: {
-      tags: ['User'],
-      summary: 'Soft Delete User By Id',
+  '/hobby/export-excel': {
+    get: {
+      tags: ['Hobby'],
+      summary: 'Get All Hobby with Export Excel',
       security: [
         {
           auth_token: [],
         },
       ],
+      produces: ['application/json'],
+      parameters: [
+        {
+          $ref: '#/components/parameters/page',
+        },
+        {
+          $ref: '#/components/parameters/pageSize',
+        },
+        {
+          $ref: '#/components/parameters/filtered',
+        },
+        {
+          $ref: '#/components/parameters/sorted',
+        },
+      ],
+      responses: {
+        200: {
+          description: 'Get All Hobby with Export Excel',
+        },
+      },
+    },
+  },
+  '/hobby/generate-excel': {
+    get: {
+      tags: ['Hobby'],
+      summary: 'Get All Hobby with Generate Excel',
+      security: [
+        {
+          auth_token: [],
+        },
+      ],
+      produces: ['application/json'],
+      parameters: [
+        {
+          $ref: '#/components/parameters/page',
+        },
+        {
+          $ref: '#/components/parameters/pageSize',
+        },
+        {
+          $ref: '#/components/parameters/filtered',
+        },
+        {
+          $ref: '#/components/parameters/sorted',
+        },
+      ],
+      responses: {
+        200: {
+          description: 'Get All Hobby with Generate Excel',
+        },
+      },
+    },
+  },
+  '/hobby/multiple/soft-delete': {
+    post: {
+      tags: ['Hobby'],
+      summary: 'Multiple Soft Delete Hobby',
+      security: [
+        {
+          auth_token: [],
+        },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          'application/x-www-form-urlencoded': {
+            schema: {
+              type: 'object',
+              properties: {
+                ids: {
+                  type: 'string',
+                  description: '["id_1", "id_2"]',
+                },
+              },
+              required: ['ids'],
+            },
+          },
+        },
+      },
+      responses: {
+        200: {
+          description: 'Multiple Soft Delete Hobby',
+        },
+      },
+    },
+  },
+  '/hobby/multiple/restore': {
+    post: {
+      tags: ['Hobby'],
+      summary: 'Multiple Restore Hobby',
+      security: [
+        {
+          auth_token: [],
+        },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          'application/x-www-form-urlencoded': {
+            schema: {
+              type: 'object',
+              properties: {
+                ids: {
+                  type: 'string',
+                  description: '["id_1", "id_2"]',
+                },
+              },
+              required: ['ids'],
+            },
+          },
+        },
+      },
+      responses: {
+        200: {
+          description: 'Multiple Restore Hobby',
+        },
+      },
+    },
+  },
+  '/hobby/multiple/force-delete': {
+    post: {
+      tags: ['Hobby'],
+      summary: 'Multiple Force Delete Hobby ( Forever )',
+      security: [
+        {
+          auth_token: [],
+        },
+      ],
+      requestBody: {
+        required: true,
+        content: {
+          'application/x-www-form-urlencoded': {
+            schema: {
+              type: 'object',
+              properties: {
+                ids: {
+                  type: 'string',
+                  description: '["id_1", "id_2"]',
+                },
+              },
+              required: ['ids'],
+            },
+          },
+        },
+      },
+      responses: {
+        200: {
+          description: 'Multiple Force Delete Hobby ( Forever )',
+        },
+      },
+    },
+  },
+  '/hobby/{id}': {
+    get: {
+      tags: ['Hobby'],
+      summary: 'Get Hobby By Id',
       produces: ['application/json'],
       parameters: [
         {
@@ -332,26 +265,23 @@ module.exports = {
           schema: {
             type: 'string',
           },
-          description: 'User Id',
+          description: 'Hobby Id',
         },
       ],
       responses: {
         200: {
-          description: 'Soft Delete User By Id',
+          description: 'Get Hobby By Id',
         },
       },
     },
-  },
-  '/user/restore/{id}': {
     put: {
-      tags: ['User'],
-      summary: 'Restore User By Id',
+      tags: ['Hobby'],
+      summary: 'Update Data Hobby',
       security: [
         {
           auth_token: [],
         },
       ],
-      produces: ['application/json'],
       parameters: [
         {
           in: 'path',
@@ -360,20 +290,36 @@ module.exports = {
           schema: {
             type: 'string',
           },
-          description: 'User Id',
+          description: 'Hobby Id',
         },
       ],
+      requestBody: {
+        required: true,
+        content: {
+          'application/x-www-form-urlencoded': {
+            schema: {
+              type: 'object',
+              properties: {
+                name: {
+                  type: 'string',
+                },
+              },
+              required: ['name'],
+            },
+          },
+        },
+      },
       responses: {
         200: {
-          description: 'Restore User By Id',
+          description: 'Update Data Hobby',
         },
       },
     },
   },
-  '/user/force-delete/{id}': {
+  '/hobby/soft-delete/{id}': {
     delete: {
-      tags: ['User'],
-      summary: 'Force Delete User By Id ( Forever )',
+      tags: ['Hobby'],
+      summary: 'Soft Delete Hobby By Id',
       security: [
         {
           auth_token: [],
@@ -388,12 +334,68 @@ module.exports = {
           schema: {
             type: 'string',
           },
-          description: 'User Id',
+          description: 'Hobby Id',
         },
       ],
       responses: {
         200: {
-          description: 'Force Delete User By Id ( Forever )',
+          description: 'Soft Delete Hobby By Id',
+        },
+      },
+    },
+  },
+  '/hobby/restore/{id}': {
+    put: {
+      tags: ['Hobby'],
+      summary: 'Restore Hobby By Id',
+      security: [
+        {
+          auth_token: [],
+        },
+      ],
+      produces: ['application/json'],
+      parameters: [
+        {
+          in: 'path',
+          name: 'id',
+          required: true,
+          schema: {
+            type: 'string',
+          },
+          description: 'Hobby Id',
+        },
+      ],
+      responses: {
+        200: {
+          description: 'Restore Hobby By Id',
+        },
+      },
+    },
+  },
+  '/hobby/force-delete/{id}': {
+    delete: {
+      tags: ['Hobby'],
+      summary: 'Force Delete Hobby By Id ( Forever )',
+      security: [
+        {
+          auth_token: [],
+        },
+      ],
+      produces: ['application/json'],
+      parameters: [
+        {
+          in: 'path',
+          name: 'id',
+          required: true,
+          schema: {
+            type: 'string',
+          },
+          description: 'Hobby Id',
+        },
+      ],
+      responses: {
+        200: {
+          description: 'Force Delete Hobby By Id ( Forever )',
         },
       },
     },

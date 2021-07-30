@@ -2,9 +2,9 @@
 <h3 align="center">( Express TS Sequelize )</h3>
 <br/>
 
-[![version](https://img.shields.io/badge/version-2.24.0-blue.svg?cacheSeconds=2592000)](https://github.com/masb0ymas/expresso/releases/tag/v2.23.0)
-[![Node](https://img.shields.io/badge/Node-12.14.0-informational?logo=node.js&color=43853D)](https://nodejs.org/docs/latest-v12.x/api/index.html)
-[![TypeScript](https://img.shields.io/badge/Typescript-4.2.4-informational?logo=typescript&color=2F74C0)](https://www.typescriptlang.org/)
+[![version](https://img.shields.io/badge/version-2.25.0-blue.svg?cacheSeconds=2592000)](https://github.com/masb0ymas/expresso/releases/tag/v2.25.0)
+[![Node](https://img.shields.io/badge/Node-12.18.0-informational?logo=node.js&color=43853D)](https://nodejs.org/docs/latest-v12.x/api/index.html)
+[![TypeScript](https://img.shields.io/badge/Typescript-4.3.2-informational?logo=typescript&color=2F74C0)](https://www.typescriptlang.org/)
 [![Express](https://img.shields.io/badge/Express-4.17.1-informational?logo=express&color=B1B1B1)](https://expressjs.com/)
 [![documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/masb0ymas/expresso#readme)
 [![maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/masb0ymas/expresso/graphs/commit-activity)
@@ -154,6 +154,60 @@ npm run serve:production
 or
 
 yarn serve:production
+```
+
+## Usage PM2 for Cluster Process
+
+```sh
+pm2 start ecosystem.config.js --env=production
+```
+
+## Run loadtest
+
+```sh
+npm install -g loadtest
+```
+
+Then run the app that you want to test with `node app.js`. We’ll start by testing the version that doesn’t use clustering.
+
+With the app running, open another Terminal and run the following load test:
+
+```sh
+loadtest http://localhost:8000/v1/user -n 1000 -c 100
+```
+
+`-n` = network / requests
+
+`-c` = concurrency
+
+`--rps` = request per second
+
+Read documentation [loadtest](https://www.npmjs.com/package/loadtest)
+
+## Result loadtest:
+
+if you want to try `1000 requests` you have to increase `RATE_LIMIT=1000`, by default `100 requests`
+
+```sh
+Requests: 0 (0%), requests per second: 0, mean latency: 0 ms
+
+Target URL:          http://localhost:8000/v1/user
+Max requests:        1000
+Concurrency level:   100
+Agent:               none
+
+Completed requests:  1000
+Total errors:        0
+Total time:          1.7057602980000002 s
+Requests per second: 586
+Mean latency:        162.8 ms
+
+Percentage of the requests served within a certain time
+  50%      136 ms
+  90%      261 ms
+  95%      337 ms
+  99%      390 ms
+ 100%      419 ms (longest request)
 ```
 
 ## Run tests
